@@ -1,0 +1,30 @@
+public TipAparat getLastInsert(String numeLocatie) throws SQLException {
+		TipAparat ap = null;
+		
+		DBHelper helper = new DBHelper();
+		Connection con = helper.getConnectionAparate();
+		String lastInsert = "select * from "+ numeLocatie+" ORDER BY id DESC LIMIT 1";
+		 
+	      PreparedStatement stmt = con.prepareStatement(lastInsert);
+	     
+	  	ResultSet rst = stmt.executeQuery();
+	  	if(rst.next()) {
+	    	  int id = rst.getInt("id");
+	    	  String serieAparat = rst.getString("serie_aparat");
+	    	  String dataCitireAparat = rst.getString("data_citire_aparat");
+	    	  int contorPortii = rst.getInt("contor_portii");
+	    	  int diferentaContorPortii = rst.getInt("diferenta_contor_portii");
+	    	  double pretProduse = rst.getDouble("pret_produse");
+	    	  double baniInCutie = rst.getDouble("bani_in_cutie");
+	    	  double diferentaIncasare = rst.getDouble("diferenta_incasare");
+	    	  String tipAparat = rst.getString("tip_aparat");
+	    	  String dataRevizie = rst.getString("data_revizie_aparat");
+	    	  ap = new TipAparat(id,numeLocatie,serieAparat,dataCitireAparat,contorPortii,diferentaContorPortii
+	    			  ,pretProduse,baniInCutie,diferentaIncasare,tipAparat,dataRevizie);
+	   
+	      }
+	      
+	     helper.closeConnection(con);
+		return ap;
+		
+	}
